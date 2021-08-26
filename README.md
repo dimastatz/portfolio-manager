@@ -1,2 +1,2 @@
 # portfolio-manager
-Investment portfolio management
+Investment portfolio management software
