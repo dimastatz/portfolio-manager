@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 from pandas_datareader import data
+from pandas.core.frame import DataFrame
 
 
 # holding period return -  
@@ -20,6 +21,6 @@ def get_market_timing(returns_lst: list, current: float) -> float:
 
 
 # read stock data from yahoo finance
-def read_stock_dataframe(start: str, end: str, symbol: str) -> pd.core.frame.DataFrame:
+def read_stock_dataframe(start: str, end: str, symbol: str) -> DataFrame:
     return data.get_data_yahoo(symbol, start, end) 
 
