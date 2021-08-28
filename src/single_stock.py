@@ -1,26 +1,19 @@
 import numpy as np
 import pandas as pd
-from scipy import stats
 from pandas_datareader import data
 from pandas.core.frame import DataFrame
+from pandas.core.series import Series
 
 
-# holding period return
-def get_holding_period_return(start_price: float, end_price: float) -> float:
-    return (end_price - start_price) / start_price
+# calculates return for the last x days in percents
+def get_rolling_x_day_return(df: DataFrame, col: str, days: int) -> DataFrame:
+    f = lambda x: round((x[-1:] - x[0]) * 100 / x[0], 2) 
+    df['Rolling Return'] = df[col].rolling(days).apply(f)
+    return df
 
 
-# calculates return for the last x days
-def get_xday_return(price_list: list, days: int, current_idx: int) -> float:
-    return get_holding_period_return(
-        price_list[current_idx - days], price_list[current_idx])
-
-
-# computing time series momentum
-def get_market_timing(returns_lst: list, current: float) -> float:
-    return stats.percentileofscore(returns_lst, current)
-
-
-# read stock data from yahoo finance
+# read stock data from yahoo finance 
+# and return adjusted cose prices
 def read_stock_dataframe(start: str, end: str, symbol: str) -> DataFrame:
-    return data.get_data_yahoo(symbol, start, end)
+    df = data.get_data_yahoo(symbol, start, end)
+    return df[['Adj Close']]
