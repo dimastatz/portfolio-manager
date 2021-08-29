@@ -3,6 +3,7 @@ from numpy import datetime64
 from pandas_datareader import data
 from pandas.core.series import Series
 from pandas.core.frame import DataFrame
+from yahoofinancials import YahooFinancials
 
 
 # holding period return in percents
@@ -38,3 +39,12 @@ def read_stock_dataframe(start: str, end: str, symbol: str) -> DataFrame:
     df['Quater'] = df['Quater'].apply(format_quater)
     df = df[['Quater', 'Adj Close']]
     return df
+
+
+def read_quater_res(symbol: str) -> DataFrame:
+    stock = YahooFinancials(symbol)
+    res = stock.get_financial_stmts('quarterly', 'income')
+    for k in res['incomeStatementHistoryQuarterly']['MSFT']:
+        print('HERE:\n', k)
+        
+    return data.get_quote_yahoo(symbol)
