@@ -1,5 +1,5 @@
-from numpy import datetime64
 import pandas as pd
+from numpy import datetime64
 from pandas_datareader import data
 from pandas.core.series import Series
 from pandas.core.frame import DataFrame
@@ -21,7 +21,8 @@ def get_rolling_x_day_return(df: DataFrame, col: str, days: int) -> DataFrame:
     return df
 
 
-# Rolling returns rank is based on the percentile stock's rolling returns fall into. 
+# Rolling returns rank is based on the
+# percentile stock's rolling returns fall into.
 def get_market_timing(df: DataFrame, col: str) -> DataFrame:
     df['{} Rank'.format(col)] = round(df[col].rank(pct=True) * 100, 2)
     return df
@@ -31,10 +32,9 @@ def get_market_timing(df: DataFrame, col: str) -> DataFrame:
 def read_stock_dataframe(start: str, end: str, symbol: str) -> DataFrame:
     def format_quater(dt: datetime64) -> str:
         return '{}Q{}'.format(int((dt.month - 1) / 3) + 1, dt.year)
-    
+
     df = data.get_data_yahoo(symbol, start, end)
     df['Quater'] = df.index
     df['Quater'] = df['Quater'].apply(format_quater)
     df = df[['Quater', 'Adj Close']]
     return df
-    
