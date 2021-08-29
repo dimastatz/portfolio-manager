@@ -4,6 +4,13 @@ from src.single_stock import *
 
 
 class TestSingleStock(unittest.TestCase):
+    def test_quater_calc(self):
+        symbol = ('MSFT', '2012-01-01', '2012-12-31')
+        df = read_stock_dataframe(symbol[1], symbol[2], symbol[0])
+        quaters = df['Quater'].unique()
+        print('quaters', quaters)
+
+
     def test_load_stock_data(self):
         symbol = ('MSFT', '2012-01-01', '2012-01-31')
         df = read_stock_dataframe(symbol[1], symbol[2], symbol[0])
