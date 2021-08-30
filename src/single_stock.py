@@ -29,11 +29,11 @@ def get_market_timing(df: DataFrame, col: str) -> DataFrame:
     return df
 
 
-# read stock data from yahoo finance and return adjusted cose prices
-def read_stock_dataframe(start: str, end: str, symbol: str) -> DataFrame:
-    def format_quater(dt: datetime64) -> str:
+def format_quater(dt: datetime64) -> str:
         return '{}Q{}'.format(int((dt.month - 1) / 3) + 1, dt.year)
 
+# read stock data from yahoo finance and return adjusted cose prices
+def read_stock_dataframe(start: str, end: str, symbol: str) -> DataFrame:
     df = data.get_data_yahoo(symbol, start, end)
     df['Quater'] = df.index
     df['Quater'] = df['Quater'].apply(format_quater)
@@ -41,10 +41,21 @@ def read_stock_dataframe(start: str, end: str, symbol: str) -> DataFrame:
     return df
 
 
+# return df with the following columns
+# Quarter, Shares Outstanding, Net Income, Total Sales, Book Value
 def read_quater_res(symbol: str) -> DataFrame:
+    df = {
+        'Quater': [],
+        'Book Value': [],
+        'Net Income': [],
+        'Total Sales': [],
+        'Shares Outstanding': [],
+    }
     stock = YahooFinancials(symbol)
     res = stock.get_financial_stmts('quarterly', 'income')
-    for k in res['incomeStatementHistoryQuarterly']['MSFT']:
-        print('HERE:\n', k)
-        
-    return data.get_quote_yahoo(symbol)
+    for k in res['incomeStatementHistoryQuarterly'][symbol]:
+        print(list(k.keys())[0])
+        #print('HERE:\n', k, type(k))
+
+    print(data.get_quote_yahoo(symbol).columns)
+    return pd.DataFrame.from_dict(df)

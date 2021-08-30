@@ -27,6 +27,6 @@ class TestSingleStock(unittest.TestCase):
         df = get_market_timing(df, 'Rolling Return')
 
     
-    def test_quater_result(self):
+    def test_quater_reult(self):
         df = read_quater_res('MSFT')
-        print('\nRES\n', df.columns)
+        print('\nRES\n', df)
