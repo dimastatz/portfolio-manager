@@ -60,12 +60,12 @@ def read_quater_res(symbol: str) -> DataFrame:
         print(dt)
         dt_income = [x[dt] for x in income if dt in x.keys()][0]
         dt_balance = [x[dt] for x in balance if dt in x.keys()][0]
-        print(dt_income, dt_balance)
+        print(dt_balance)
 
         df['Quater'].append(format_quater(pd.to_datetime(dt)))
-        df['Book Value'].append(dt_income['netIncome'])
+        df['Book Value'].append(dt_balance['netTangibleAssets'])
         df['Net Income'].append(dt_income['netIncome'])
         df['Total Sales'].append(dt_income['totalRevenue'])
-        df['Shares Outstanding'].append(dt_income['netIncome'])
+        df['Shares Outstanding'].append(dt_balance['commonStock'])
     
     return pd.DataFrame.from_dict(df)
