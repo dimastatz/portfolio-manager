@@ -53,9 +53,14 @@ def read_quater_res(symbol: str) -> DataFrame:
     }
     stock = YahooFinancials(symbol)
     res = stock.get_financial_stmts('quarterly', 'income')
-    for k in res['incomeStatementHistoryQuarterly'][symbol]:
-        print(list(k.keys())[0])
-        #print('HERE:\n', k, type(k))
 
-    print(data.get_quote_yahoo(symbol).columns)
+    for dc in res['incomeStatementHistoryQuarterly'][symbol]:
+        item = list(dc.items())[0]
+        df['Quater'].append(format_quater(pd.to_datetime(item[0])))
+        df['Book Value'].append(item[1]['netIncome'])
+        df['Net Income'].append(item[1]['netIncome'])
+        df['Total Sales'].append(item[1]['netIncome'])
+        df['Shares Outstanding'].append(item[1]['netIncome'])
+        print('HERE:\n', list(dc.items())[0])
+
     return pd.DataFrame.from_dict(df)
