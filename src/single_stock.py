@@ -52,15 +52,20 @@ def read_quater_res(symbol: str) -> DataFrame:
         'Shares Outstanding': [],
     }
     stock = YahooFinancials(symbol)
-    res = stock.get_financial_stmts('quarterly', 'income')
+    res = stock.get_financial_stmts('quarterly', ['income', 'balance'])
+    income = res['incomeStatementHistoryQuarterly'][symbol]
+    balance = res['balanceSheetHistoryQuarterly'][symbol]
 
-    for dc in res['incomeStatementHistoryQuarterly'][symbol]:
-        item = list(dc.items())[0]
-        df['Quater'].append(format_quater(pd.to_datetime(item[0])))
-        df['Book Value'].append(item[1]['netIncome'])
-        df['Net Income'].append(item[1]['netIncome'])
-        df['Total Sales'].append(item[1]['netIncome'])
-        df['Shares Outstanding'].append(item[1]['netIncome'])
-        print('HERE:\n', list(dc.items())[0])
+    for dt in [list(d.items())[0][0] for d in income]:
+        print(dt)
+        dt_income = [x[dt] for x in income if dt in x.keys()][0]
+        dt_balance = [x[dt] for x in balance if dt in x.keys()][0]
+        print(dt_income, dt_balance)
 
+        df['Quater'].append(format_quater(pd.to_datetime(dt)))
+        df['Book Value'].append(dt_income['netIncome'])
+        df['Net Income'].append(dt_income['netIncome'])
+        df['Total Sales'].append(dt_income['totalRevenue'])
+        df['Shares Outstanding'].append(dt_income['netIncome'])
+    
     return pd.DataFrame.from_dict(df)
