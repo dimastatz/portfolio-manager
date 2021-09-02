@@ -1,7 +1,6 @@
-d = { 'a': 1, 'b': 2}
+import yfinance as yf
 
-for l in d.items():
-    print(l[0])
+msft = yf.Ticker("MSFT")
 
-
-list(d.items())[0]
+msft.balance_sheet
+#msft.quarterly_balance_sheet
