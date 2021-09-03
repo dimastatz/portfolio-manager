@@ -1,6 +1,9 @@
-import yfinance as yf
+from typing import NamedTuple
 
-msft = yf.Ticker("MSFT")
+class Sample(NamedTuple):
+    name: str
+    average: float 
+  
 
-msft.balance_sheet
-#msft.quarterly_balance_sheet
+x = Sample('test', 1.0)
+print(x)
