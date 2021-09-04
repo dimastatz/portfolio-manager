@@ -30,22 +30,23 @@ def get_market_timing(df: DataFrame, col: str) -> DataFrame:
 
 
 def format_quater(dt: datetime64) -> str:
-        return '{}Q{}'.format(int((dt.month - 1) / 3) + 1, dt.year)
+    return '{}Q{}'.format(int((dt.month - 1) / 3) + 1, dt.year)
+
 
 # read stock data from yahoo finance and return adjusted cose prices
 def read_stock_dataframe(start: str, end: str, symbol: str) -> DataFrame:
     df = data.get_data_yahoo(symbol, start, end)
-    df['Quater'] = df.index
-    df['Quater'] = df['Quater'].apply(format_quater)
-    df = df[['Quater', 'Adj Close']]
+    df['Quarter'] = df.index
+    df['Quarter'] = df['Quarter'].apply(format_quater)
+    df = df[['Quarter', 'Adj Close']]
     return df
 
 
 # return df with the following columns
 # Quarter, Shares Outstanding, Net Income, Total Sales, Book Value
-def read_quater_res(symbol: str) -> DataFrame:
+def read_quarter_res(symbol: str) -> DataFrame:
     df = {
-        'Quater': [],
+        'Quarter': [],
         'Book Value': [],
         'Net Income': [],
         'Total Sales': [],
@@ -57,15 +58,17 @@ def read_quater_res(symbol: str) -> DataFrame:
     balance = res['balanceSheetHistoryQuarterly'][symbol]
 
     for dt in [list(d.items())[0][0] for d in income]:
-        print(dt)
         dt_income = [x[dt] for x in income if dt in x.keys()][0]
         dt_balance = [x[dt] for x in balance if dt in x.keys()][0]
-        print(dt_balance)
 
-        df['Quater'].append(format_quater(pd.to_datetime(dt)))
+        df['Quarter'].append(format_quater(pd.to_datetime(dt)))
         df['Book Value'].append(dt_balance['netTangibleAssets'])
         df['Net Income'].append(dt_income['netIncome'])
         df['Total Sales'].append(dt_income['totalRevenue'])
         df['Shares Outstanding'].append(dt_balance['commonStock'])
-    
+
     return pd.DataFrame.from_dict(df)
+
+
+def join_stock_data(df_stock: DataFrame, df_financial: DataFrame) -> DataFrame:
+    return []

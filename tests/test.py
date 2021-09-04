@@ -1,9 +1,16 @@
+import sys
 from typing import NamedTuple
 
-class Sample(NamedTuple):
-    name: str
-    average: float 
-  
 
-x = Sample('test', 1.0)
-print(x)
+class Point:
+    def __init__(self, val: float):
+        self.val = val
+
+
+print(Point(1) == Point(1))
+
+def f(node: dict) -> float:
+    if node is None:
+        return sys.float_info.max
+    else:
+        return min(node['value'], f(node['left']), node.get('right')) 
