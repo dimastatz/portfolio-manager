@@ -29,12 +29,12 @@ class TestSingleStock(unittest.TestCase):
     
     def test_quarter_reult(self):
         df = read_quarter_res('MSFT')
-        print('\nRES\n', df)
+        self.assertEqual(4, df.shape[0])
 
 
     # test data frames join
     def test_stock_fin_join(self):
-        symbol = ('MSFT', '2012-01-01', '2012-01-31')
+        symbol = ('MSFT', '2021-01-01', '2021-08-31')
         df_stock = read_stock_dataframe(symbol[1], symbol[2], symbol[0]) 
         print(df_stock)
         df_quater_resuts = read_quarter_res('MSFT')

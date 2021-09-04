@@ -71,4 +71,4 @@ def read_quarter_res(symbol: str) -> DataFrame:
 
 
 def join_stock_data(df_stock: DataFrame, df_financial: DataFrame) -> DataFrame:
-    return []
+    return pd.merge(df_stock, df_financial, on='Quarter', how='inner')
