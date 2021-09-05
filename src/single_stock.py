@@ -71,4 +71,6 @@ def read_quarter_res(symbol: str) -> DataFrame:
 
 
 def join_stock_data(df_stock: DataFrame, df_financial: DataFrame) -> DataFrame:
+    df_stock = get_rolling_x_day_return(df_stock, 'Adj Close', 30)
+    df_stock = get_market_timing(df_stock, 'Rolling Return')
     return pd.merge(df_stock, df_financial, on='Quarter', how='inner')

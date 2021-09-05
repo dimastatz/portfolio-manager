@@ -34,11 +34,10 @@ class TestSingleStock(unittest.TestCase):
 
     # test data frames join
     def test_stock_fin_join(self):
+        pd.set_option('display.max_columns', None)
         symbol = ('MSFT', '2021-01-01', '2021-08-31')
         df_stock = read_stock_dataframe(symbol[1], symbol[2], symbol[0]) 
-        print(df_stock)
         df_quater_resuts = read_quarter_res('MSFT')
-        print(df_quater_resuts)
         res = join_stock_data(df_stock, df_quater_resuts)
         print(res)
 
