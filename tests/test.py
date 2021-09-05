@@ -1,15 +1,14 @@
 from abc import abstractclassmethod
-
-
 from pandas.core.frame import DataFrame
+
 
 class StockDataReader:
     @abstractclassmethod
-    def read_stock_values() -> bool:
+    def read_stock_values() -> DataFrame:
         pass
 
     @abstractclassmethod
-    def read_stock_financials() -> bool:
+    def read_stock_financials() -> DataFrame:
         pass
 
 
