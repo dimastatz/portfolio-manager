@@ -1,16 +1,29 @@
-import sys
-from typing import NamedTuple
+from abc import abstractclassmethod
 
 
-class Point:
-    def __init__(self, val: float):
-        self.val = val
+from pandas.core.frame import DataFrame
+
+class StockDataReader:
+    @abstractclassmethod
+    def read_stock_values() -> bool:
+        pass
+
+    @abstractclassmethod
+    def read_stock_financials() -> bool:
+        pass
 
 
-print(Point(1) == Point(1))
+class StockAnalysisModel:  
+    @abstractclassmethod
+    def get_buy_signal() -> bool:
+        pass
 
-def f(node: dict) -> float:
-    if node is None:
-        return sys.float_info.max
-    else:
-        return min(node['value'], f(node['left']), node.get('right')) 
+
+class DiscountedCashFlowModel(StockAnalysisModel):
+    def __init__(self, symbol: str, reader: StockDataReader):
+        super().__init__()
+        self.symbol = symbol
+        self.reader = reader
+    
+    def get_buy_signal() -> bool:
+        pass
