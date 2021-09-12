@@ -1,28 +1,19 @@
-from abc import abstractclassmethod
-from pandas.core.frame import DataFrame
+import time
+import requests
+import concurrent.futures
+
+h = { 'apikey': '7575378a-446c-48df-aadc-c95c31b7ad92' }
+url = 'https://data-collector-stage.video-data-platform-prod.aws.oath.cloud/batch'
 
 
-class StockDataReader:
-    @abstractclassmethod
-    def read_stock_values() -> DataFrame:
-        pass
+start = time.time()
+lst = []
+with concurrent.futures.ThreadPoolExecutor(max_workers=8) as e:
+    for i in range(0, 10):
+        lst.append(e.submit(requests.post, url, headers = h, data = '1'))
 
-    @abstractclassmethod
-    def read_stock_financials() -> DataFrame:
-        pass
+for x in concurrent.futures.as_completed(lst):
+    print(x.result().status_code)
+    raise Exception('failed ' + )
 
-
-class StockAnalysisModel:  
-    @abstractclassmethod
-    def get_buy_signal() -> bool:
-        pass
-
-
-class DiscountedCashFlowModel(StockAnalysisModel):
-    def __init__(self, symbol: str, reader: StockDataReader):
-        super().__init__()
-        self.symbol = symbol
-        self.reader = reader
-    
-    def get_buy_signal() -> bool:
-        pass
+print(time.time() - start)
