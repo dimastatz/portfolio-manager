@@ -1,26 +1,13 @@
-#
-class DividentDiscountModel:
-    def __init__(self) -> None:
-        self.share_price: float
-        self.earning_per_share: float
-        self.book_value_per_share: float
-        self.sales_per_share: float
-        self.pe_ratio: float
-        self.pb_ratio: float
-        self.ps_ratio: float
-        self.net_income: float
-        self.shares_outstanding: float
+from typing import NamedTuple
 
-        # we asume that 50% of net income 
-        # will be used to pay a divident to 
-        # shareholders 
-        self.payout_ratio: float = 50
-        self.growth_rate: float
-        self.discount_rate: float
-
-        # (net_income / number_of_shares) * payout_ratio
-        self.divident_next_year = (self.net_income / self.shares_outstanding) * self.payout_ratio
+class DividentDiscountParams(NamedTuple):
+    net_income: float 
+    growth_rate: float
+    discount_rate: float
+    shares_outstanding: float
+    payout_ratio: float = 50
 
 
-    def calculate(self) -> float:
-        self.divident_next_year / (self.discount_rate - self.growth_rate)
+def get_divident_discount(p: DividentDiscountParams) -> float:
+    divident_next_year = (p.net_income / p.shares_outstanding) * p.payout_ratio
+    return divident_next_year / (p.discount_rate - p.growth_rate)
