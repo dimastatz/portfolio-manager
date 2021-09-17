@@ -1,10 +1,11 @@
 import random
 from typing import List, NamedTuple
 
+
 class Model:
     def __init__(self, name: str):
         self.name = name
-    
+
     def run(self) -> str:
         raise Exception('Run is not implemented in Abstract Model')
 
@@ -18,11 +19,15 @@ class RandomModel(Model):
 
 
 def get_models() -> List[Model]:
-    return [RandomModel('Model_1'), RandomModel('Model_2'), RandomModel('Model_3')]
-       
+    return [
+        RandomModel('Model_1'),
+        RandomModel('Model_2'),
+        RandomModel('Model_3')
+    ]
+
 
 class DividendDiscountParams(NamedTuple):
-    net_income: float 
+    net_income: float
     growth_rate: float
     discount_rate: float
     shares_outstanding: float
@@ -31,7 +36,7 @@ class DividendDiscountParams(NamedTuple):
 
 class DividendDiscountParams(Model):
     def __init__(self, name: str, params: DividendDiscountParams):
-        super().__init__(name) 
+        super().__init__(name)
         self.params = params
 
 
