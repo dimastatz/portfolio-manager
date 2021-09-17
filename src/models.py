@@ -34,7 +34,6 @@ class DividendDiscountParams(Model):
         super().__init__(name) 
         self.params = params
 
-    def
 
 def get_divident_discount(p: DividendDiscountParams) -> float:
     divident_next_year = (p.net_income / p.shares_outstanding) * p.payout_ratio
