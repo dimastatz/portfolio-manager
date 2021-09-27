@@ -1,6 +1,6 @@
 # portfolio-manager
-Investment portfolio management software
+Investment portfolio management
 
-Description  
-    The following software automates the investment portfolio management task.
+For more info see 
+[a link] https://github.com/dimastatz/portfolio-manager/blob/main/article.ipynb
      
