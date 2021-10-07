@@ -1,8 +1,7 @@
+import json
 
-messages = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+fname = '/Users/dstatz/Documents/pgit/video-streaming-analytics/data-process/flumenz/src/test/resources/cdn_log.json'
 
-print(list(range(0, len(messages), 2)))
-
-chunks = [messages[x:x+2] for x in range(0, len(messages), 2)]
-print(chunks)
-
+with open(fname, 'r') as f:
+    res = f.readlines()
+    print(json.dumps(res))
